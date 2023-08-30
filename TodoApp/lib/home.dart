@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:todoapp/constants/colors.dart';
+import 'package:todoapp/todo_item.dart';
+import 'model/todo.dart';
 
 
 
 class Home extends StatelessWidget{
-  const Home ({Key? key}) : super(key: key);
-
+  Home ({Key? key}) : super(key: key);
+  final todosList = ToDo.todoList();
 
   Widget build(BuildContext context){
     return Scaffold(
@@ -20,7 +22,21 @@ padding: EdgeInsets.symmetric(
     child:Column(
       children: [
        searchBox(),
-  ],
+  Expanded(
+  child: ListView(
+    children: [
+      Container(
+        margin: EdgeInsets.only(top: 50, bottom: 20,),
+        child: Text('All ToDos',style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500))
+      ),
+
+      for (ToDo todoo in todosList)
+      ToDoItem(todo: todoo,),
+
+    ],
+  )
+  ),
+      ],
     ),
     ),
     );
