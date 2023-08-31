@@ -15,6 +15,8 @@ class Home extends StatefulWidget{
 
 class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
+final _todoController =TextEditingController();
+
 
   Widget build(BuildContext context){
     return Scaffold(
@@ -70,6 +72,7 @@ Align(
 
     ),
     child: TextField(
+      controller: _todoController,
       decoration: InputDecoration(
         hintText:'Add a new todo item',
         border: InputBorder.none
@@ -84,7 +87,9 @@ Align(
     ),
   child: ElevatedButton(
     child:Text('+',style: TextStyle(fontSize: 40,),),
-    onPressed: () {},
+    onPressed: () {
+      _addTodDoItem(_todoController.text);
+    },
     style: ElevatedButton.styleFrom(
       primary: Colors.blue,
       minimumSize: Size(60,60),
@@ -113,6 +118,15 @@ Align(
 
   }
 
+
+  void _addTodDoItem(String toDo){
+    setState(() {
+    todosList.add(ToDo(id: DateTime.now().microsecondsSinceEpoch.toString(), //timestamp to create unique id everytime
+      todoText: toDo,
+    ));
+  });
+       _todoController.clear();
+        }
   Widget searchBox() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
