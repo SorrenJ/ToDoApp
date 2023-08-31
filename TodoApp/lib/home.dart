@@ -43,7 +43,7 @@ padding: EdgeInsets.symmetric(
       ToDoItem(
         todo: todoo,
       onToDoChanged: _handleToDoChange,
-        onDeleteItem: () {},
+        onDeleteItem: _deleteToDoItem,
       ),
 
     ],
@@ -104,6 +104,13 @@ Align(
     setState(() {
       todo.isDone = !todo.isDone;
     });
+  }
+
+  void _deleteToDoItem(String id){
+    setState(() {
+      todosList.removeWhere((item) => item.id == id); //if item id matches then it will be removed
+    });
+
   }
 
   Widget searchBox() {

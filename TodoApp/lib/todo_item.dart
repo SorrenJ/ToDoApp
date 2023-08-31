@@ -50,7 +50,7 @@ onToDoChanged(todo);
           icon: Icon(Icons.delete),
          onPressed: () {
            print('Clicked on delete ToDo item');
-
+          onDeleteItem(todo.id);
          },
         ),
       ),
