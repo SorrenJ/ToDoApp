@@ -6,8 +6,14 @@ import 'model/todo.dart';
 
 
 
-class Home extends StatelessWidget{
+class Home extends StatefulWidget{
   Home ({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
 
   Widget build(BuildContext context){
@@ -32,8 +38,13 @@ padding: EdgeInsets.symmetric(
         child: Text('All ToDos',style: TextStyle(fontSize: 30, fontWeight: FontWeight.w500))
       ),
 
+      //passed from todo_item.dart
       for (ToDo todoo in todosList)
-      ToDoItem(todo: todoo,),
+      ToDoItem(
+        todo: todoo,
+      onToDoChanged: _handleToDoChange,
+        onDeleteItem: () {},
+      ),
 
     ],
   )
@@ -89,6 +100,12 @@ Align(
     );
   }
 
+  void _handleToDoChange(ToDo todo) {
+    setState(() {
+      todo.isDone = !todo.isDone;
+    });
+  }
+
   Widget searchBox() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
@@ -118,6 +135,7 @@ Align(
       );
 
   }
+
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
 
