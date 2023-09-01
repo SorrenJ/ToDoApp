@@ -15,7 +15,13 @@ class Home extends StatefulWidget{
 
 class _HomeState extends State<Home> {
   final todosList = ToDo.todoList();
+  List<ToDo> _foundToDo = [];
 final _todoController =TextEditingController();
+
+void initState(){
+  _foundToDo = todosList;
+  super.initState();
+}
 
 
   Widget build(BuildContext context){
@@ -41,7 +47,7 @@ padding: EdgeInsets.symmetric(
       ),
 
       //passed from todo_item.dart
-      for (ToDo todoo in todosList)
+      for (ToDo todoo in _foundToDo.reversed) //comes from the search, reversed places newest item on top
       ToDoItem(
         todo: todoo,
       onToDoChanged: _handleToDoChange,
@@ -127,6 +133,23 @@ Align(
   });
        _todoController.clear();
         }
+
+        void _runFilter(String enteredKeyword) { //filter function for searchbox
+List<ToDo>results = [];
+if ( enteredKeyword.isEmpty ) {
+  results = todosList;
+} else {
+results = todosList.where((item) => item.todoText!
+    .toLowerCase()
+    .contains(enteredKeyword
+    .toLowerCase()))
+    .toList(); //convert entered keyword to lowercase then to a list
+}
+
+setState((){
+  _foundToDo = results;
+});
+        }
   Widget searchBox() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 15),
@@ -135,7 +158,7 @@ Align(
             borderRadius: BorderRadius.circular(20)
         ),
         child:TextField(
-
+onChanged: (value)=> _runFilter(value),//checks for the search functionality, checks the value of every keystroke
           decoration:InputDecoration(
             contentPadding: EdgeInsets.all(3),
             prefixIcon: Icon(
